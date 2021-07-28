@@ -1,0 +1,11 @@
+.apods-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+
+    apod-card {
+        max-width: 300px;
+        margin: 10px;
+    }
+}

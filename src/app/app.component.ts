@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApodInfo } from './models/app.model';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'apod-angular-tutorial';
+  public apods: ApodInfo[] = [];
+
+  public onApodsReceived(apods: ApodInfo[]) {
+    this.apods = apods;
+  }
 }

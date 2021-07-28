@@ -1,0 +1,114 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "APOD Intro",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "## Welcome to an Angular Tutorial wannabe!\r\n\r\nThis will be an interactive walkthrough through some of the building blocks of Angular projects.\r\n\r\nThe app consumes an endpoind that provides daily images of the universe: [Astronomy Picture of the Day](https://apod.nasa.gov/apod/astropix.html)\r\n\r\nThe API is better documented on [github](https://github.com/nasa/apod-api)"
+    },
+    {
+      "file": "package.json",
+      "description": "Anytime we are faced with an unknown app that uses npm it's a good start to look at the scripts provided in package.json.",
+      "line": 4,
+      "title": "Running the app"
+    },
+    {
+      "file": "package.json",
+      "description": "Before we run any command here we should do an `npm install` to download all the needed packages into `node_modules` dir.\r\n\r\nGo ahead and open a terminal at this file location and run `npm install`. Afterwards you can try the commands under `scrips` by running `npm run <name of command>`. We will need the one that says `npm run start`",
+      "line": 6,
+      "title": "Package json scripts"
+    },
+    {
+      "file": "package.json",
+      "description": "## Side note\r\n\r\nyou might wonder what other thingies are found in `package.json`\r\n\r\n`dependencies` are those dependencies required for the app to actually run in 'production' or in the browser",
+      "line": 13
+    },
+    {
+      "file": "package.json",
+      "description": "## Also package.json side note\r\n\r\n`devDependenvies` are those dependencies only required while developing the app\r\n\r\ngood examples are packages used in testing the app, linters, build tools\r\nand mainly those packages that make your life as a dev easier\r\nand have no impact on the actual outcome of the app\r\n\r\nif you want to add a dependency here instead of `dependencies` you should run: `npm install some_cool_dep_that_writes_the_code_for_me --save-dev`",
+      "line": 28
+    },
+    {
+      "file": "package.json",
+      "description": "## One more package.json side note\r\n\r\nThis is the version in the well known and used format of `MAJOR.MINOR.PATCH`, where in theory\r\n- MAJOR: brings incompatible API changes\r\n- MINOR: adds functionality in a backwards compatible manner\r\n- PATCH: bug fixes, also backwards compatible",
+      "line": 3
+    },
+    {
+      "file": "package-lock.json",
+      "description": "## package-lock.json\r\n\r\nThis file is generated when running `npm install`, before downloading the actual dependencies and addin them to node_modules.\r\n\r\nIt contains a versioned dependency structure which means that\r\nif you have this file you can guarantee that the same version will be downloaded\r\nregardless of how the version is specified in package.json\r\n\r\nFor example, in package.json you can specify 'inexact' vesions having:\r\n- ~version (~1.2.3) : which will update to any future patches without incrementing the minor version\r\n- ^version (^1.2.3) : which will increment both patch and minor versions\r\n- if you want to know more, [there you go](https://github.com/npm/node-semver#versions)",
+      "line": 2
+    },
+    {
+      "file": "src/index.html",
+      "description": "## App entry point\r\n\r\nMoving the focus from the workspace to the actual app, being a frontend app of course we can start to understand it by first looking at `index.html`\r\n\r\nHere, apart from automatically generated not-so-important things, `<app-root>` component is inserted.",
+      "line": 16,
+      "selection": {
+        "start": {
+          "line": 16,
+          "character": 4
+        },
+        "end": {
+          "line": 16,
+          "character": 12
+        }
+      }
+    },
+    {
+      "file": "tsconfig.app.json",
+      "description": "## App entry point\r\n\r\n`tsconfig.app.json` is an extension of ``tsconfig.json` which in turn is what indicates the root of a typescript project. \r\n\r\nIt specifies the files needed to compile the project.\r\n\r\nGoing forward to `main.ts`...",
+      "line": 9
+    },
+    {
+      "file": "src/main.ts",
+      "description": "## App entry point\r\n\r\nHere our AppModule is bootstrapped. Modules are, in short, containers for closely related capabilities of the code, you can find the long of it [here](https://angular.io/guide/architecture-modules)",
+      "line": 11
+    },
+    {
+      "file": "src/app/app.module.ts",
+      "description": "## AppModule\r\n\r\nAnd here is the definition of our AppModule, let's understand its defintion.\r\n\r\nFor more, see [docs](https://angular.io/guide/architecture-modules)",
+      "line": 43
+    },
+    {
+      "file": "src/app/app.module.ts",
+      "description": "## AppModule declarations\r\n\r\nAll components, directives and pipes used and declared by this module",
+      "line": 19
+    },
+    {
+      "file": "src/app/app.module.ts",
+      "description": "## AppModule imports\r\n\r\nOther modules used inside this module, these can be any kind of modules, from angular specific ones, to other custom modules defined in the same workspace.",
+      "line": 25
+    },
+    {
+      "file": "src/app/app.module.ts",
+      "description": "## AppModule providers\r\n\r\nServices defined inside the module that should contribute to the global collection of services and thus become accessible from all parts of the app, also in other modules.",
+      "line": 38
+    },
+    {
+      "file": "src/app/app.module.ts",
+      "description": "## AppModule bootstrap\r\n\r\nThis is the main component to be used in the application view.",
+      "line": 41
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "## AppComponent\r\n\r\n... which is a simple class having a core angular decorator `Component` which mainly consists of:\r\n- selector: what will be used to identify the component in the template\r\n- template/templateUrls: the html or the urls to the html\r\n- style/styleUrls: same, but for css\r\n\r\nSome more metadata can be configured here, but it will be covered later.\r\n\r\nMore details in [docs](https://angular.io/guide/component-overview)",
+      "line": 9
+    },
+    {
+      "title": "Directory overview",
+      "description": "## Folder structure\r\n\r\nGenerally, a module should reside inside its own directory with the same name, here we have `app` and `AppModule`.\r\n\r\nInside a module we can have folders for all Angular building blocks and we already have components and services as well as models and utils for the logic behind the app."
+    },
+    {
+      "title": "Design",
+      "description": "## Making it work\r\n\r\nLet's take some time to do an alt + tab and move to the browser to take a look at the actual application. \r\n\r\nThe API provides the possibility to request all astornomy picture of the day in a given range of dates. We can do this request by inputting a date range (make sure to select end date before today, we will add some validations to the input later). Hit Submit and watch what happens.\r\n\r\nIf the call is successful, then we should see a list of cards each displaying one APOD.\r\n\r\nIf you can't see anything new, open dev tools and take a look either at the console or in the Network tab.\r\n\r\nThere should be a 403 Forbidden error thrown because the API only responds to calls having a valid API key.\r\n\r\nHere are some hints to make it work:\r\n- request one api key from [here](https://api.nasa.gov/#signUp) or you can try a demo key with limited capabilities\r\n- find in the project where that request is built and add your api key there"
+    },
+    {
+      "file": "src/app/services/apod-api.service.ts",
+      "description": "## API_KEY\r\n\r\nHere it is, if you complete this with your api key or 'DEMO_KEY', you should be able to see it successfully loading the cards.\r\n\r\nThe thing with api keys stored on frontend is that it should never happen since any key brought from code in the browser becomes public.\r\n\r\nThere are multiple ways to handle this, but they are out of scope for now, so just remember to never store keys in code or push them on github.",
+      "line": 7
+    },
+    {
+      "title": "Congrats",
+      "description": "## Congratulations! \r\n\r\nYou managed to finish the intro :)"
+    }
+  ]
+}

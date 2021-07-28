@@ -1,0 +1,15 @@
+:host {
+    margin: 20px 20px;
+}
+
+span {
+    font-family: monospace;
+}
+
+.border {
+    display: grid;
+    place-items: center;
+    border: 4px solid;
+    padding: 1rem;
+    border-image: linear-gradient(to right, turquoise, greenyellow) 1 0;
+}
