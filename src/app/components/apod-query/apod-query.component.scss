@@ -3,4 +3,9 @@ apod-query {
     flex-direction: column;
     align-items: center;
     padding-top: 10px;
+
+    .close-button {
+        position: absolute;
+        right: 12px;
+    }
 }

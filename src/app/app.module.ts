@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { ApodQueryComponent } from './components/apod-query/apod-query.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { UrlDisplayComponent } from './components/query-display/url-display.component';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UrlDisplayComponent } from './components/query-display/url-display.comp
     MatFormFieldModule,
     ReactiveFormsModule,
     MatNativeDateModule,
+    MatIconModule,
   ],
   providers: [
     ApodApiService,

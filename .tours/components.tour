@@ -1,0 +1,70 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Components",
+  "steps": [
+    {
+      "title": "Lifecycle hooks",
+      "description": "## Component Lifecycle Hooks\r\n\r\nA component's lifecycle starts when its class is instantiated and ends when the component is removed from the DOM (Document Object Model aka API for html).\r\nIn the meantine, certain special events happen: the component is rendered, it rerenders when it detects changes and updates its instance.\r\n\r\nAngular provides a set of methods that can be implemented in order to hook into these events. \r\n\r\nYou can view all of them [here](https://angular.io/guide/lifecycle-hooks#lifecycle-event-sequence). \r\n\r\nWe will take a look at the most important ones."
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "In order to tap into these events, the component class must implement certain interfaces.\r\n\r\nThis component logs in the console when the constructor, ngOnInit and ngOnChanges are called so you can open the app in browser and see in console the order of the calls.",
+      "line": 11
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "The constructor is the first one to be called. Although it is not a lifecycle hook, we look at it in order to understand the difference between the constructor and `ngOnInit` hook.\r\n\r\nIn Angular, constructors should be kept as simple as possible and only set default values to local variables.\r\n\r\nNote that it says \"default\" values, that is because parameters given to components when created in another component are not set via constructors, but via input properties. \r\n\r\nIf you try to access startDate or count values here, they will be undefined.",
+      "line": 20
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "Your first chance to access any input properties is in the ngOnChanges hook. Note that by this time ngOnInit was still not called.\r\n\r\nWhat happens during this event is that properties are set to their new values just before the method gets called.\r\n\r\nThe method receives an object of type `SimpleChanges` of current and previous values and will get called any time any input property changes.\r\n\r\nNote here the suble difference between `undefined` and `null`. While they can be used more or less interchangeably, it is helpful to mark values as undefined when no interaction has been performed on them and keep null as an identifier for missing values. Input properties are `undefined` before ngOnChanges is called, but if for example the date range picker is created with no initial dates, then they would send `null` as value to the child component.",
+      "line": 27
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "After the first call is made to `ngOnChanges`, `ngOnInit` is also called. \r\n\r\nThis is the place for any complex operations needed to setup the component correctly. This can include calls to external apis.",
+      "line": 23
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "Speaking of calls to APIs, we will switch to `ApodQueryComponent` to take a look at an example when `OnDestroy` is needed.\r\n\r\nThis component is responsible for gathering the input from child components and using the `ApodApiService` to perform a call.",
+      "line": 16
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "Calls are asynchronous, i.e. you know when you're calling the function but have no idea of when to expect the answer. \r\n\r\nYou can see here that the function `getByDateRange` returns an Observable. That means we can observe on it using rxjs and subscribe to the response.\r\n\r\nBut what if the component somehow gets destroyed before the response comes back? The subscription will still exist somewhere.\r\n\r\nYou can test this by picking a date range, clicking the submit button and then quickly click on the close button.",
+      "line": 42
+    },
+    {
+      "file": "src/app/app.component.html",
+      "description": "Close will destroy the component and remove it from DOM.",
+      "line": 1
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "But the console log in subscribe will still appear even after the component was destroyed.\r\n\r\nSo we need to somehow make the subscription aware of the components lifecycle.",
+      "line": 43
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "In order to do this we firstly implement OnDestroy interface.",
+      "line": 15
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "Then we define a boolean Subject called destroy.\r\n\r\nNote the `$` at the end of the name. This is a naming convention that we use to better identify Subjects.\r\n\r\nDo not mistake this for the $event object which is used by event emitters. You can find more about this [here](https://angular.io/guide/event-binding).",
+      "line": 20
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "We implement the `ngOnDestroy` hook where we complete the `_destroyed$` Subject.",
+      "line": 34
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "We can use the subject here, by adding a pipe to the stream `.pipe(takeUntil(this._destroyed$))` right between the call and subscribe.\r\n\r\nThis will tell the observable to only emit values until the _destroyed$ emits.\r\n\r\nAfter adding the pipe, try to submit and close again in browser and note that the console log in subscribe doesn't appear anymore.",
+      "line": 42
+    }
+  ]
+}

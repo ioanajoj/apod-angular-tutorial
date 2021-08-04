@@ -8,6 +8,7 @@ import { ApodInfo } from './models/app.model';
 })
 export class AppComponent {
   public apods: ApodInfo[] = [];
+  public showApodQuery = true;
 
   public onApodsReceived(apods: ApodInfo[]) {
     this.apods = apods;

@@ -1,4 +1,4 @@
-<apod-query (newApods)="onApodsReceived($event)"></apod-query>
+<apod-query *ngIf="showApodQuery" (newApods)="onApodsReceived($event)" (close)="showApodQuery = false"></apod-query>
 
 <div class="apods-container">
   <apod-card *ngFor="let apod of this.apods" [apod]="apod"></apod-card>

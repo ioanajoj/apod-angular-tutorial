@@ -4,7 +4,6 @@ import { Subject } from 'rxjs';
 import { ApodInfo } from 'src/app/models/app.model';
 import { ApodApiService } from 'src/app/services/apod-api.service';
 import { apodApiResponseMapper } from 'src/app/utils/mappers';
-import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'apod-query',
@@ -15,6 +14,7 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class ApodQueryComponent implements OnDestroy {
     @Output() newApods = new EventEmitter<ApodInfo[]>();
+    @Output() close = new EventEmitter();
 
     public dateRange: FormGroup;
     private _destroyed$ = new Subject<boolean>();
@@ -29,6 +29,7 @@ export class ApodQueryComponent implements OnDestroy {
     }
 
     ngOnDestroy(): void {
+        console.log('apod-query.component ngOnDestroy');
         this._destroyed$.next(true);
         this._destroyed$.complete();
     }
@@ -38,7 +39,13 @@ export class ApodQueryComponent implements OnDestroy {
         const endDate: Date = this.dateRange.get('end')?.value;
         if (!startDate || !endDate) { return; }
         this._apodApiService.getByDateRange(startDate, endDate)
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe(response => this.newApods.emit(response.map(apodApiResponseMapper)));
+            .subscribe(response => {
+                console.log('received response from API');
+                this.newApods.emit(response.map(apodApiResponseMapper))
+            });
+    }
+
+    public onClose() {
+        this.close.emit();
     }
 }
