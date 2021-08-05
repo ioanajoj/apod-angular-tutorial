@@ -1,10 +1,11 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, Output, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnDestroy, Output, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { ApodInfo } from 'src/app/models/app.model';
 import { ApodApiService } from 'src/app/services/apod-api.service';
 import { apodApiResponseMapper } from 'src/app/utils/mappers';
 import { takeUntil } from 'rxjs/operators';
+import { UrlDisplayComponent } from '../query-display/url-display.component';
 
 @Component({
     selector: 'apod-query',
@@ -16,6 +17,9 @@ import { takeUntil } from 'rxjs/operators';
 export class ApodQueryComponent implements OnDestroy {
     @Output() newApods = new EventEmitter<ApodInfo[]>();
     @Output() close = new EventEmitter();
+
+    @ViewChild(UrlDisplayComponent)
+    private _urlDisplay!: UrlDisplayComponent;
 
     public dateRange: FormGroup;
     private _destroyed$ = new Subject<boolean>();

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Component Interaction",
+  "steps": [
+    {
+      "title": "Introduction",
+      "description": "### Component Interaction\r\n\r\nGenerally, components should be small components in the view that follow the single responsability principle.\r\n\r\nYou could write a whole app within one single component, but that would ruin things like \r\n- app performance - since you page would probably fully rerender when anything changes\r\n- code reusability - since there wouldn't probably be much\r\n- state would be hard to handle\r\n- and definitely more\r\n\r\nSo we need to create small bits of the page and make the small bits only communicate the necessary data.\r\n\r\nLet's take a look at ways in which this can be done."
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "## Input binding\r\n\r\nThe simplest way to send data is by using inputs, they act like parameters to constructors. This is a one way communication from parent to child.",
+      "line": 16
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.html",
+      "description": "When sending data to an input, we can say\r\n\r\n- startDate=\"abc\", in which case startDate will take the string value given \"abc\"\r\n- [startDate]=\"abc\", such that startDate is bound to the variable abc in the parent component. As a result, whenever the abc variable changes, ngOnChanges from the child component will be triggered.",
+      "line": 16
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "We've discussed the ngOnChanges method in the component lifecycles tour, but we can also intercept changes in another way.\r\n\r\nWe can use an input property setter in order to have a single method that is called when that particular property changes.\r\n\r\nIt would look like this:\r\n```\r\n@Input() set startDate(date: Date) {\r\n    console.log('new startDate', date, this.startDate);\r\n    this.receivedStartDate = date;\r\n};\r\n```\r\nwhere _startDate is a private property, since we can't assign anymore to the public identifier startDate.\r\n\r\nTry to make this work like this, there are more changes in the ts file as well as in the template required for this to work with a setter.",
+      "line": 15,
+      "selection": {
+        "start": {
+          "line": 14,
+          "character": 9
+        },
+        "end": {
+          "line": 16,
+          "character": 7
+        }
+      }
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "## Send data from child to parent\r\n\r\nIf we want to send some data back to the parent or notify it about anything, we can use an `@Output` property.",
+      "line": 18
+    },
+    {
+      "file": "src/app/app.component.html",
+      "description": "When we have an output we wrap the identifier with '(' and give as parameter the function that should be called when the child emits on that property.\r\n\r\nIf the function has parameters, then in the template we can simply use the $event object to pass all the data forward.",
+      "line": 1
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "In the ts file the handler should cast the data to the expected format `apods: ApodInfo[]`.",
+      "line": 15
+    },
+    {
+      "file": "src/app/app.component.html",
+      "description": "We can also define the handler directly in the template if it is small enough, like in the case of close.\r\n\r\nshowApodQuery is a boolean property set by default to true, when the child emits that it should be closed (this happens when clicking the x button), then the `showApodQuery` is set to false and the ngIf resolves to false, removing the component from the DOM.",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 47
+        },
+        "end": {
+          "line": 1,
+          "character": 62
+        }
+      }
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "The ouputs are defined as EventEmitters.",
+      "line": 18,
+      "selection": {
+        "start": {
+          "line": 18,
+          "character": 27
+        },
+        "end": {
+          "line": 18,
+          "character": 39
+        }
+      }
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "And one has to call emit on them in order to notify the parent.",
+      "line": 46
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "Another method for parent -> child communication is by using ViewChild.\r\n\r\nHere is where another lifecycle hook that we didn't previously discussed comes in handy: `ngAfterViewInit` which can be used by implementing `AfterViewInit` interface.\r\n\r\nIn the ngAfterViewInit you will be able to acces the component as a regular class by having access to the public identifiers.\r\n\r\nTry to update the url inside UrlDisplayComponent by using this method and don't rely on inputs whatsoever and make sure that the view also reacts to change detection.",
+      "line": 22
+    },
+    {
+      "title": "Communication via services",
+      "description": "One method for easily enabling bi-drectional communication between parent and children is by using services.\r\n\r\nIn this case, the properties should be Subjects and components should subscribe to changes made to those properties.\r\n\r\nThis method is a bit less effective since it doesn;t imply that the built-in change detection mechanism in Angular is always triggered.\r\n\r\nThat is because component Inputs won't change and as a result ngOnChanges won't be called."
+    }
+  ],
+  "ref": "component-interaction"
+}
