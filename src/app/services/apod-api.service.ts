@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { Subject } from "rxjs";
 import { ApodApiResponse } from "../models";
 import { getYYYYMMDDformat } from "../utils/date-helpers";
 
@@ -8,18 +9,21 @@ const API_KEY = '';
 
 @Injectable()
 export class ApodApiService {
+    public apods = new Subject<ApodApiResponse[]>();
 
     constructor(
         private _http: HttpClient,
     ) { }
 
-    public getByDateRange(startDate: Date, endDate: Date) {
-        return this._http.get<ApodApiResponse[]>(API_URL, {
+    public async getByDateRange(startDate: Date, endDate: Date) {
+        this._http.get<ApodApiResponse[]>(API_URL, {
             params: {
                 'api_key': API_KEY,
                 'start_date': getYYYYMMDDformat(startDate),
                 'end_date': getYYYYMMDDformat(endDate),
             }
-        })
+        }).subscribe(response => {
+            this.apods.next(response);
+        });
     }
 }

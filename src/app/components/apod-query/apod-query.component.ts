@@ -44,11 +44,11 @@ export class ApodQueryComponent implements OnDestroy {
         const endDate: Date = this.dateRange.get('end')?.value;
         if (!startDate || !endDate) { return; }
         this._apodApiService.getByDateRange(startDate, endDate)
-            .pipe(takeUntil(this._destroyed$))
-            .subscribe(response => {
-                console.log('received response from API');
-                this.newApods.emit(response.map(apodApiResponseMapper))
-            });
+        // .pipe(takeUntil(this._destroyed$))
+        // .subscribe(response => {
+        //     console.log('received response from API');
+        //     this.newApods.emit(response.map(apodApiResponseMapper))
+        // });
     }
 
     public onClose() {

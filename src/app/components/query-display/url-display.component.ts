@@ -6,7 +6,7 @@ import { getYYYYMMDDformat } from "src/app/utils/date-helpers";
     selector: 'url-display',
     templateUrl: 'url-display.component.html',
     styleUrls: ['url-display.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    // changeDetection: ChangeDetectionStrategy.OnPush,
     encapsulation: ViewEncapsulation.Emulated,
 })
 export class UrlDisplayComponent implements OnInit, OnChanges {
@@ -28,6 +28,10 @@ export class UrlDisplayComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         console.log('url-display.component ngOnChanges', changes);
         this.url = this._buildUrl();
+    }
+
+    public logChangeDetection() {
+        // console.log('url-display rerendered');
     }
 
     private _buildUrl() {

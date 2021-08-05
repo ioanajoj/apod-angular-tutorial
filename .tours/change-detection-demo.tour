@@ -1,0 +1,79 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Change Detection Demo",
+  "steps": [
+    {
+      "title": "Idea",
+      "description": "We will take a look at the way in which ChangeDetectionStrategy influences when components are rerendered.\r\n\r\nKeep in mind that the way in which these components are designed is mainly for demonstration purposes and you shouldn't necessarily do things the way in which they are done here in real life.\r\nFor now it's important to understand the concepts in order to easily debug problems later.\r\n\r\nI've made some changes to the components but the functionality should be the same, let's take a look at the changes"
+    },
+    {
+      "file": "src/app/services/apod-api.service.ts",
+      "description": "Firstly, I used the apod service for communicating between the component that starts the request and the component that displays the result. \r\n\r\nSo the button in apod-query.component will trigger `getByDateRange`, but the results won't be returned to the component anymore, instead they are kept in the service in `apods` property.",
+      "line": 27
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "I commented out the extra stuff apod-query component did to transmit the results.",
+      "line": 51
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "The main component used to react to the emitted response in `onApodsReceived`. Since no response is emitted anymore, we need to subscribe to the changes made in service.",
+      "line": 28
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "Here we subsribe to any changes made to `apods` in service, the subscribe will be called each time there is a response from the API and will set the local property `apods` to the new response.",
+      "line": 22
+    },
+    {
+      "file": "src/app/app.component.html",
+      "description": "The template should go through all apods in the local property and render an apod-card for each.",
+      "line": 4,
+      "selection": {
+        "start": {
+          "line": 1,
+          "character": 47
+        },
+        "end": {
+          "line": 1,
+          "character": 62
+        }
+      }
+    },
+    {
+      "title": "Test",
+      "description": "Go in browser and run the app to make sure that everything works as expected with all the changes made."
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "By default, change detection will look for any event happening in the component\r\n- Click event of elements\r\n- Receiving data via asynchronous call\r\n- Triggering setTimeout and setInterval\r\n\r\nWhen setting change detection strategy to OnPush, then the component will only trigger change detection when its inputs change.",
+      "line": 10
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "Uncomment line 10 and see in browser that although after pressing the button this console log is logged, and this.apods is updated, no card are generated. That is because change detection hasn't been triggered on the component because no inputs changed.",
+      "line": 22
+    },
+    {
+      "file": "src/app/app.component.ts",
+      "description": "In cases like this you can inject in constructor `private _cd: ChangeDetectorRef` and call in subscribe `this._cd.detectChanges()` to manually trigger rerendering of the component.",
+      "line": 32
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.html",
+      "description": "In order to understand the benefits of ChangeDetectionStrategy.OnPush, I also added this line in the url-display component template. Each time the template is rerendered it will trigger logChangeDetection function.",
+      "line": 2
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "Uncomment this line to be able to see the logs in the browser console.\r\n\r\nNote that the logs appear even when hovering over the date picker, even if theoretically nothing changes to the url-display component, angular checks and rechecks everything to make sure all changes are displayed.\r\n\r\nThis can hurt the performance pretty bad. Uncomment change detection strategy on line 9 and see the logs in console again. They should only appear when start and end date inputs are updated, that is when clicking on the date picker.",
+      "line": 34
+    },
+    {
+      "title": "Final note",
+      "description": "You can experience with change detection strategies and console logs a lot in order to understand when and where things are rerendered.\r\n\r\nNote that when setting ChangeDetectionStrategy to OnPush, updates are also made for Outputs, so if you go back to component-encapsulation branch and set the change detection strategy to on push for app component, everything will still work because the response is sent via an output handler."
+    }
+  ],
+  "ref": "component-change-detection"
+}
