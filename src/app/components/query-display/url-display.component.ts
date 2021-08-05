@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, OnChanges, OnInit, SimpleChanges, ViewEncapsulation } from "@angular/core";
 import { API_URL } from "src/app/services/apod-api.service";
 import { getYYYYMMDDformat } from "src/app/utils/date-helpers";
 
@@ -7,6 +7,7 @@ import { getYYYYMMDDformat } from "src/app/utils/date-helpers";
     templateUrl: 'url-display.component.html',
     styleUrls: ['url-display.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
+    encapsulation: ViewEncapsulation.Emulated,
 })
 export class UrlDisplayComponent implements OnInit, OnChanges {
     @Input() startDate?: Date;

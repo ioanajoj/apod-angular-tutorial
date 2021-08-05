@@ -1,0 +1,55 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "Component Encapsulation",
+  "steps": [
+    {
+      "title": "Overview",
+      "description": "### View Encapsulation\r\n\r\nIt refers to the way in which component css styles are defined to be applicable only to the the given component or to the whole html page."
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.ts",
+      "description": "ViewEncapsulation can be set in the component metadata and has 3 possible configurations.\r\n\r\n1. ShadowDom - `uses the browser's native shadow DOM implementation to attach a shadow DOM to the component's host element, and then puts the component view inside that shadow DOM. The component's styles are included within the shadow DOM`. The support for shadow dom across browsers is still limited. More about shhadow dom [here](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_shadow_DOM).\r\n2. Emulated - [DEFAULT] `emulates the behavior of shadow DOM by preprocessing (and renaming) the CSS code to effectively scope the CSS to the component's view`.\r\n3. None - css styles are added to the global styles",
+      "line": 10
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.scss",
+      "description": "This component has the default view encpasulation configuration: emulated. So the styles defined here will only apply to the current component.\r\n\r\n",
+      "line": 16
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.scss",
+      "description": "`:host` selector is used to apply the styles to the parent component.\r\n\r\nGo in browser and take a look at the generated styles.\r\n\r\nYou should see that for example this host selector has been translated to something similar to `[_nghost-qwr-c110]`,\r\nwhile in html the current html tag <url-display> received the selector the generated selector.\r\n\r\nChild elements of the component will also have new automatically generated selectors.\r\n",
+      "line": 1,
+      "selection": {
+        "start": {
+          "line": 5,
+          "character": 7
+        },
+        "end": {
+          "line": 6,
+          "character": 28
+        }
+      }
+    },
+    {
+      "file": "src/app/components/query-display/url-display.component.scss",
+      "description": "For demonstration purposes these styles are split between a tag selector `span` and a class selector `.border`.\r\n\r\nIf you look in the html file you will see that the span has the border class so esentially these styles could be grouped under the same selector.\r\n\r\nBut note in the browser how these selectors were translated:\r\n\r\nGiven that the component received the attribute `_nghost-qwr-c110` (will differ a bit in different builds), the span style is translated to `span[_nghost-qwr-c110]`. \r\nThe same goes for the class. You can view [here](https://www.w3schools.com/cssref/css_selectors.asp) a reference for css selectors.",
+      "line": 15
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.ts",
+      "description": "We will move on to a component that has the `None` view encapsulation configuration.",
+      "line": 14
+    },
+    {
+      "file": "src/app/components/apod-query/apod-query.component.scss",
+      "description": "All the styles defined in this file will be applied to the whole html.\r\n\r\nWhich sounds like a bad practice, you might not want to create a new component and have styles from other components already applied to it so you should hunt css selectors all around you app.\r\n\r\nFor this, we wrap the styles with the tag of the current component `apod-query`.\r\n\r\nThis way, the styles will be applied only to elements under the `<apod-query>` tag, or to the tag itself.\r\n\r\nYou can go in browser and take a look at the styles. You will notice that they are not translated anymore, rather directly copy pasted.\r\nWhich can make them easier to read and debug. The component still has an attribute of the format `_ngcontent-qwr-c127` applied, but the styles don't.",
+      "line": 12
+    },
+    {
+      "title": "Practice",
+      "description": "Try to change the ViewEncapsulation configuration for apod-query component to Emulated and then to ShadowDom and rewrite the styles here so that the component looks the same."
+    }
+  ],
+  "ref": "component-encapsulation"
+}

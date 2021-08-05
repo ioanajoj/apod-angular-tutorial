@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { ApodInfo } from 'src/app/models/app.model';
 import { ApodApiService } from 'src/app/services/apod-api.service';
 import { apodApiResponseMapper } from 'src/app/utils/mappers';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
     selector: 'apod-query',
@@ -39,6 +40,7 @@ export class ApodQueryComponent implements OnDestroy {
         const endDate: Date = this.dateRange.get('end')?.value;
         if (!startDate || !endDate) { return; }
         this._apodApiService.getByDateRange(startDate, endDate)
+            .pipe(takeUntil(this._destroyed$))
             .subscribe(response => {
                 console.log('received response from API');
                 this.newApods.emit(response.map(apodApiResponseMapper))
